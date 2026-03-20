@@ -24,7 +24,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/aburg/timewarrior-jann/util"
+	"github.com/aburg/tjann/util"
 	"github.com/spf13/cobra"
 )
 

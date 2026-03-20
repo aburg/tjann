@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os/exec"
 
-	"github.com/aburg/timewarrior-jann/models"
+	"github.com/aburg/tjann/models"
 )
 
 func ReadTimes(from string) (models.Times, error) {

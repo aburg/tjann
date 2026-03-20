@@ -1,4 +1,4 @@
-module github.com/aburg/timewarrior-jann
+module github.com/aburg/tjann
 
 go 1.26.1
 

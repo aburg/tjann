@@ -21,7 +21,7 @@ THE SOFTWARE.
 */
 package main
 
-import "github.com/aburg/timewarrior-jann/cmd"
+import "github.com/aburg/tjann/cmd"
 
 func main() {
 	cmd.Execute()
