@@ -1,4 +1,4 @@
-# Timewarrior JSON Annotations
+# tjann - Timewarrior JSON Annotations
 
 Use timewarrior annotations as JSON stores.
 
