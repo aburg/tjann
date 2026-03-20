@@ -5,12 +5,25 @@ Use timewarrior annotations as JSON stores.
 ## Usage
 
 ```[bash]
-tjann set @1 '{"billable":true}'
-tjann set @1 '{"billed":true}'
-tjann get @1
-tjann query '{"billed": true}'
+# create a time
+timew start
+sleep 3
+timew stop
+
+# fail to read (there is nothing on there)
+tjann get @1 myuuid
+
+# write
+tjann set @1 myuuid $(uuidgen)
+
+# reading will succeed
+tjann get @1 myuuid
+
+# delete
+tjann unset @1 myuuid
+
+# fail to read (again, there is nothing left here)
+tjann get @1 myuuid
 ```
 
-## How this works
-
-Not at all...
+Use ```timew export @1``` if you want to inspect what is happening.

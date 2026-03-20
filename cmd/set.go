@@ -22,25 +22,33 @@ THE SOFTWARE.
 package cmd
 
 import (
+	"github.com/aburg/tjann/models"
+	"github.com/aburg/tjann/util"
 	"github.com/spf13/cobra"
 )
 
 // setCmd represents the set command
 var setCmd = &cobra.Command{
-	Use:   "set <from> <json>",
-	Short: "A brief description of your command",
-	Args:  cobra.ExactArgs(2),
+	Use:   "set <from> <key> <value>",
+	Short: "Write a value into the annotation store",
+	Args:  cobra.ExactArgs(3),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		// read data via timew export
+		from := args[0]
+		key := args[1]
+		value := args[2]
 
-		// decode annotation json
+		times, err := util.ReadTimes(from)
+		if err != nil {
+			return err
+		}
 
-		// modify via jq
-
-		// encode annotation
-
-		// write back via timw
-
+		for _, time := range times {
+			if time.Annotation == nil {
+				time.Annotation = models.Annotation{}
+			}
+			time.Annotation[key] = value
+			util.WriteTime(time)
+		}
 		return nil
 	},
 }

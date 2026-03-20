@@ -28,10 +28,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// getCmd represents the get command
-var getCmd = &cobra.Command{
-	Use:   "get <from> <key>",
-	Short: "Read a value from the annotation store",
+// unsetCmd represents the unset command
+var unsetCmd = &cobra.Command{
+	Use:   "unset <kind> <key>",
+	Short: "Delete a value from the annotation store",
 	Args:  cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		from := args[0]
@@ -44,9 +44,10 @@ var getCmd = &cobra.Command{
 		}
 
 		for _, time := range times {
-			value, ok := time.Annotation[key]
+			_, ok := time.Annotation[key]
 			if ok {
-				fmt.Println(value)
+				delete(time.Annotation, key)
+				util.WriteTime(time)
 			} else {
 				return fmt.Errorf("key not found: %s", key)
 			}
@@ -57,15 +58,15 @@ var getCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(getCmd)
+	rootCmd.AddCommand(unsetCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// getCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// unsetCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// getCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// unsetCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
