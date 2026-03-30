@@ -27,15 +27,14 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// setCmd represents the set command
-var setCmd = &cobra.Command{
-	Use:   "set <from> <key> <value>",
-	Short: "Write a value into the annotation store",
-	Args:  cobra.ExactArgs(3),
+// flagCmd represents the flag command
+var flagCmd = &cobra.Command{
+	Use:   "flag <from> <flag>",
+	Short: "Puts a <flag> into <from>'s annotation.",
+	Args:  cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		from := args[0]
-		key := args[1]
-		value := args[2]
+		flag := args[1]
 
 		times, err := util.ReadTimes(from)
 		if err != nil {
@@ -46,7 +45,7 @@ var setCmd = &cobra.Command{
 			if time.Annotation == nil {
 				time.Annotation = models.Annotation{}
 			}
-			time.Annotation[key] = value
+			time.Annotation[flag] = true
 			util.WriteTime(time)
 		}
 
@@ -55,5 +54,15 @@ var setCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(setCmd)
+	rootCmd.AddCommand(flagCmd)
+
+	// Here you will define your flags and configuration settings.
+
+	// Cobra supports Persistent Flags which will work for this command
+	// and all subcommands, e.g.:
+	// flagCmd.PersistentFlags().String("foo", "", "A help for foo")
+
+	// Cobra supports local flags which will only run when this command
+	// is called directly, e.g.:
+	// flagCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

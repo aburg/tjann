@@ -22,32 +22,35 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"github.com/aburg/tjann/models"
+	"fmt"
+
 	"github.com/aburg/tjann/util"
 	"github.com/spf13/cobra"
 )
 
-// setCmd represents the set command
-var setCmd = &cobra.Command{
-	Use:   "set <from> <key> <value>",
-	Short: "Write a value into the annotation store",
-	Args:  cobra.ExactArgs(3),
+// unflagCmd represents the unflag command
+var unflagCmd = &cobra.Command{
+	Use:   "unflag <from> <>flag",
+	Short: "Remove <flag> from <from>.",
+	Args:  cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		from := args[0]
 		key := args[1]
-		value := args[2]
 
+		// read data via timew export
 		times, err := util.ReadTimes(from)
 		if err != nil {
 			return err
 		}
 
 		for _, time := range times {
-			if time.Annotation == nil {
-				time.Annotation = models.Annotation{}
+			_, ok := time.Annotation[key].(bool)
+			if ok {
+				delete(time.Annotation, key)
+				util.WriteTime(time)
+			} else {
+				return fmt.Errorf("that is not a flag: %s", key)
 			}
-			time.Annotation[key] = value
-			util.WriteTime(time)
 		}
 
 		return nil
@@ -55,5 +58,15 @@ var setCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(setCmd)
+	rootCmd.AddCommand(unflagCmd)
+
+	// Here you will define your flags and configuration settings.
+
+	// Cobra supports Persistent Flags which will work for this command
+	// and all subcommands, e.g.:
+	// unflagCmd.PersistentFlags().String("foo", "", "A help for foo")
+
+	// Cobra supports local flags which will only run when this command
+	// is called directly, e.g.:
+	// unflagCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
