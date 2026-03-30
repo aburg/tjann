@@ -24,6 +24,14 @@ tjann unset @1 myuuid
 
 # fail to read (again, there is nothing left here)
 tjann get @1 myuuid
+
+# set a boolean value
+tjann flag @1 billed
+
+# remove a flag
+tjann unflag @1 billable
+
+# (checking for flags is not supported. i am in a hurry and do not need it myself.)
 ```
 
 Use ```timew export @1``` if you want to inspect what is happening.
